@@ -3,6 +3,7 @@ package com.example.PatientRegistration.application;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.example.PatientRegistration.domain.model.Patients;
@@ -40,6 +41,10 @@ public class PatientsService {
 
     public List<Patients> getAllPatients() {
         return new ArrayList<>(patientsMap.values());
+    }
+
+    public Optional<Patients> getPatientById(String id) {
+        return Optional.ofNullable(patientsMap.get(id));
     }
 
     public void updatePatient(Patients patient,
