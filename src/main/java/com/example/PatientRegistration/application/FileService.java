@@ -102,4 +102,15 @@ public class FileService {
         }
     }
 
+    public void clearFile(String fileName) throws IOException {
+        Path filePath = baseDir.resolve(fileName);
+
+        if (!Files.exists(filePath)) {
+            System.out.println("Dosya bulunamadı: " + filePath);
+            return;
+        }
+        Files.newBufferedWriter(filePath, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING).close();
+
+    }
+
 }

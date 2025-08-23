@@ -1,5 +1,6 @@
 package com.example.PatientRegistration.application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,17 @@ public class PatientsService {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void savePatientsToFile(String filename) {
+        FileService fileService = new FileService();
+        try {
+            fileService.clearFile(filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        fileService.appendPatientToFile(filename, patientsMap);
+
     }
 
     public void createPatient(String name, String surname, int age, String phone, String email) {
