@@ -8,12 +8,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.example.PatientRegistration.domain.model.Patients;
 
 public class FileService {
     String userDir = System.getProperty("user.dir");
     String directoryPath = userDir + "/var/data/";
+    private final Path baseDir = Paths.get(System.getProperty("user.dir"), "var", "data");
     PatientJsonCodec codec;
 
     public boolean ensureFile(String directoryPath, String fileName) {
@@ -54,32 +59,47 @@ public class FileService {
         }
     }
 
-    public void appendPatientToFile(String fileName, HashMap<String, String> patient) {
-
+    public void appendPatientToFile(String fileName, HashMap<String, Patients> patients) {
         if (!ensureFile(directoryPath, fileName)) {
-            System.out.println("Kullanıcı işlemi gerçekleştirilemedi.");
+            System.out.println("Dosya oluşturulamadı.");
             return;
         }
-        Path baseDir = Paths.get(System.getProperty("user.dir"), "var", "data");
+
         Path path = baseDir.resolve(fileName);
 
         try (BufferedWriter writer = Files.newBufferedWriter(
                 path,
                 StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE,
-                StandardOpenOption.APPEND))
+                StandardOpenOption.APPEND)) {
 
-        {
-            for (Map.Entry<String, String> entry : patient.entrySet()) {
-                writer.write(entry.getValue());
+            for (Map.Entry<String, Patients> entry : patients.entrySet()) {
+                String json = PatientJsonCodec.toNdjson(entry.getValue());
+                writer.write(json);
                 writer.newLine();
-                System.out.println("Kullanıcı dosyaya yazıldı");
-
+                System.out.println("Hasta dosyaya yazıldı: " + entry.getKey());
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public List<String> readAllLinesFromFile(String fileName) {
+
+        Path filePath = baseDir.resolve(fileName);
+
+        if (!Files.exists(filePath)) {
+            System.out.println("Dosya bulunamadı: " + filePath);
+            return Collections.emptyList();
+        }
+
+        try {
+            return Files.readAllLines(filePath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
 }

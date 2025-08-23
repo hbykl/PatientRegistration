@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public final class PatientJsonCodec {
     private static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules();
 
-    private PatientJsonCodec() {
+    public PatientJsonCodec() {
     }
 
     public static String toNdjson(Patients p) {
