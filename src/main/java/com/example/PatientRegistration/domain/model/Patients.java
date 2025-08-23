@@ -1,13 +1,14 @@
 package com.example.PatientRegistration.domain.model;
 
 public class Patients {
-    String name;
-    String surname;
-    int age;
-    String phone;
-    String email;
+    private String id;
+    private String name;
+    private String surname;
+    private int age;
+    private String phone;
+    private String email;
 
-    public Patients(String name, String surname, int age, String phone, String email) {
+    public Patients(String id, String name, String surname, int age, String phone, String email) {
         this.name = name;
         this.surname = surname;
         this.age = age;

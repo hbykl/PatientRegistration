@@ -6,18 +6,19 @@ import java.util.UUID;
 import com.example.PatientRegistration.domain.model.Patients;
 
 public class PatientsService {
-    HashMap<String, Patients> Patients = new HashMap<String, Patients>();
+    HashMap<String, String> patientsMap = new HashMap<String, String>();
+    FileService fileService = new FileService();
+    PatientJsonCodec patientJsonCodec;
 
-    public void createPatient(String name, String surname, String phone, String email) {
+    public void createPatient(String fileName, String name, String surname, int age, String phone, String email) {
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
-        Patients patient = new Patients(name, surname, 0, phone, email);
-        Patients.put(uuidAsString, patient);
-
+        Patients patient = new Patients(uuidAsString, name, surname, age, phone, email);
+        patientsMap.put(uuidAsString, PatientJsonCodec.toNdjson(patient));
     }
 
-    public void modelToText(Patients patient) {
-
+    public HashMap<String, String> getPatiens() {
+        return patientsMap;
     }
 
 }
