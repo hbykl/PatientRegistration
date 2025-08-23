@@ -26,14 +26,14 @@ public class PatientsService {
     }
 
     public void savePatientsToFile(String filename) {
-        FileService fileService = new FileService();
+        FileService fs = new FileService();
+        fs.ensureFile(filename); // getBaseDir ekleyebilirsin
         try {
-            fileService.clearFile(filename);
+            fs.clearFile(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileService.appendPatientToFile(filename, patientsMap);
-
+        fs.appendPatientToFile(filename, patientsMap);
     }
 
     public void createPatient(String name, String surname, int age, String phone, String email) {

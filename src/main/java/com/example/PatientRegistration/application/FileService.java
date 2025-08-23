@@ -16,13 +16,17 @@ import java.util.Map;
 import com.example.PatientRegistration.domain.model.Patients;
 
 public class FileService {
-    String userDir = System.getProperty("user.dir");
-    String directoryPath = userDir + "/var/data/";
     private final Path baseDir = Paths.get(System.getProperty("user.dir"), "var", "data");
     PatientJsonCodec codec;
 
-    public boolean ensureFile(String directoryPath, String fileName) {
-        File file = new File(directoryPath, fileName);
+    public Path getBaseDir() {
+        return baseDir;
+    }
+
+    public boolean ensureFile(String fileName) {
+        Path filePath = baseDir.resolve(fileName);
+        File file = filePath.toFile();
+
         try {
             File parent = file.getCanonicalFile().getParentFile(); // gerçek üst dizin
             if (parent != null) {
@@ -42,8 +46,7 @@ public class FileService {
                     System.out.println("Aynı isimde klasör var: " + file.getAbsolutePath());
                     return false;
                 }
-                System.out.println("Dosya zaten mevcut: " + file.getAbsolutePath());
-                return true;
+                return true; // dosya zaten var
             }
 
             if (file.createNewFile()) {
@@ -60,7 +63,7 @@ public class FileService {
     }
 
     public void appendPatientToFile(String fileName, HashMap<String, Patients> patients) {
-        if (!ensureFile(directoryPath, fileName)) {
+        if (!ensureFile(fileName)) {
             System.out.println("Dosya oluşturulamadı.");
             return;
         }
