@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.example.PatientRegistration.domain.model.Patients;
 
+@Service
 public class PatientsService {
     private HashMap<String, Patients> patientsMap = new HashMap<String, Patients>();
 
@@ -27,28 +30,31 @@ public class PatientsService {
 
     public void savePatientsToFile(String filename) {
         FileService fs = new FileService();
-        fs.ensureFile(filename); // getBaseDir ekleyebilirsin
+        fs.ensureFile(filename);
         try {
             fs.clearFile(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
         fs.appendPatientToFile(filename, patientsMap);
+        patientsMap.clear();
     }
 
-    public void createPatient(String name, String surname, int age, String phone, String email) {
+    public Patients createPatient(String name, String surname, int age, String phone, String email) {
         UUID uuid = UUID.randomUUID();
         String uuidAsString = uuid.toString();
         Patients patient = new Patients(uuidAsString, name, surname, age, phone, email);
         patientsMap.put(uuidAsString, patient);
+        return patient;
     }
 
-    public void deletePatient(String id) {
+    public boolean deletePatient(String id) {
         if (!patientsMap.containsKey(id)) {
             System.out.println("Verilen değere ait hasta bulunamadı");
-            return;
+            return false;
         }
         patientsMap.remove(id);
+        return true;
     }
 
     public List<Patients> getAllPatients() {
@@ -59,19 +65,13 @@ public class PatientsService {
         return Optional.ofNullable(patientsMap.get(id));
     }
 
-    public void updatePatient(Patients patient,
-            String name,
-            String surname,
-            int age,
-            String phone,
-            String email) {
-        if (!patientsMap.containsKey(patient.getId())) {
-            System.out.println("Verilen değere ait hasta bulunamadı");
-            return;
-        }
-        Patients updatedPatient = new Patients(patient.getId(), name, surname, age, phone, email);
-        patientsMap.put(patient.getId(), updatedPatient);
-
+    public Patients updatePatient(String id, String name, String surname, int age, String phone, String email) {
+        Patients cur = patientsMap.get(id);
+        if (cur == null)
+            return null;
+        Patients updated = new Patients(id, name, surname, age, phone, email);
+        patientsMap.put(id, updated);
+        return updated;
     }
 
 }

@@ -9,6 +9,7 @@ public class Patients {
     private String email;
 
     public Patients(String id, String name, String surname, int age, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;

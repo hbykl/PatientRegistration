@@ -17,7 +17,6 @@ import com.example.PatientRegistration.domain.model.Patients;
 
 public class FileService {
     private final Path baseDir = Paths.get(System.getProperty("user.dir"), "var", "data");
-    PatientJsonCodec codec;
 
     public Path getBaseDir() {
         return baseDir;
@@ -94,6 +93,7 @@ public class FileService {
 
         if (!Files.exists(filePath)) {
             System.out.println("Dosya bulunamadı: " + filePath);
+            ensureFile(fileName);
             return Collections.emptyList();
         }
 
