@@ -54,7 +54,7 @@ mvn spring-boot:run
 **Uygulama URL:**
 
 ```
-http://localhost:8080
+http://localhost:8080/patients
 ```
 
 ## 📁 Veri Dosyası
@@ -62,7 +62,7 @@ http://localhost:8080
 Veriler şu dosyada saklanır:
 
 ```
-var/data/patients.txt
+patients.txt
 ```
 
 Her satır bir JSON nesnesidir (NDJSON formatı).
@@ -71,20 +71,20 @@ Her satır bir JSON nesnesidir (NDJSON formatı).
 
 | HTTP   | URL                                           | Açıklama                              |
 |--------|-----------------------------------------------|---------------------------------------|
-| POST   | `/patients/load?fileName=var/data/patients.txt` | Dosyadan yükle (HashMap’i doldurur)   |
+| POST   | `/patients/load?fileName=patients.txt` | Dosyadan yükle (HashMap’i doldurur)   |
 | POST   | `/patients`                                   | Yeni hasta oluşturur                  |
 | GET    | `/patients`                                   | Tüm hastaları getirir                 |
 | GET    | `/patients/{id}`                              | ID ile hasta getirir                  |
 | PUT    | `/patients/{id}`                              | ID ile hastayı günceller              |
 | DELETE | `/patients/{id}`                              | ID ile hastayı siler                  |
-| POST   | `/patients/save?fileName=var/data/patients.txt` | Verileri dosyaya kaydeder ve temizler |
+| POST   | `/patients/save?fileName=patients.txt` | Verileri dosyaya kaydeder ve temizler |
 
 ## 🧪 Hızlı Test Senaryosu (`curl`)
 
 ### 1. Dosyadan veri yükle
 
 ```bash
-curl -X POST "http://localhost:8080/patients/load?fileName=var/data/patients.txt"
+curl -X POST "http://localhost:8080/patients/load?fileName=patients.txt"
 ```
 
 ### 2. Yeni hasta oluştur
@@ -137,7 +137,7 @@ curl -X DELETE "http://localhost:8080/patients/$ID"
 ### 7. Verileri kaydet ve belleği temizle
 
 ```bash
-curl -X POST "http://localhost:8080/patients/save?fileName=var/data/patients.txt"
+curl -X POST "http://localhost:8080/patients/save?fileName=patients.txt"
 ```
 
 > `save` işlemi sonrası `HashMap` temizlenir. Devam etmek için `load` yap ve yeni hasta ekle.

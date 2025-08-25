@@ -1,3 +1,0 @@
-{"id":"508c551c-80fc-4e3f-a45e-86c1508ba615","name":"Ali","surname":"Kaya","age":31,"phone":"555-5678","email":"ali.kaya@example.com"}
-{"id":"e10af4bd-6937-4ea4-bdbb-9330965ce9bf","name":"Ali","surname":"Yılmaz","age":30,"phone":"555-1234","email":"ali@example.com"}
-{"id":"752aaec6-126c-458b-9509-e6059b68f08d","name":"Ali","surname":"Yılmaz","age":30,"phone":"555-1234","email":"ali@example.com"}

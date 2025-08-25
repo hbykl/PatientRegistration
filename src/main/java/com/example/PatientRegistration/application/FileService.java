@@ -27,7 +27,7 @@ public class FileService {
         File file = filePath.toFile();
 
         try {
-            File parent = file.getCanonicalFile().getParentFile(); // gerçek üst dizin
+            File parent = file.getCanonicalFile().getParentFile();
             if (parent != null) {
                 if (parent.exists()) {
                     if (!parent.isDirectory()) {
@@ -45,7 +45,7 @@ public class FileService {
                     System.out.println("Aynı isimde klasör var: " + file.getAbsolutePath());
                     return false;
                 }
-                return true; // dosya zaten var
+                return true;
             }
 
             if (file.createNewFile()) {
